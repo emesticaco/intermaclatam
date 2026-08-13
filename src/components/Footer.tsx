@@ -1,21 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Media } from "@/lib/media";
+import type { FooterContent } from "@/types/content";
 
-const LOGO_WHITE_TAGLINE =
-  "https://www.figma.com/api/mcp/asset/3bd01d6a-2504-420f-a5bc-582890e42db2";
-const ICON_FACEBOOK =
-  "https://www.figma.com/api/mcp/asset/ef7bbbe2-7f56-418a-acec-bae30ce96bbf";
-const ICON_INSTAGRAM =
-  "https://www.figma.com/api/mcp/asset/8a9df95a-f433-43cc-9edd-a8f1e65e1361";
+export default function Footer({ content }: { content?: FooterContent | null }) {
+  const links = (content?.links ?? []).filter(Boolean);
+  const social = (content?.social ?? []).filter(Boolean);
 
-const footerLinks = [
-  { label: "Privacidad", href: "#" },
-  { label: "Términos", href: "#" },
-  { label: "Preguntas Frecuentes", href: "#" },
-  { label: "Contacto", href: "#" },
-];
-
-export default function Footer() {
   return (
     <footer className="bg-[#2d3136]">
       {/* Desktop layout */}
@@ -23,28 +13,32 @@ export default function Footer() {
         {/* Left: logo + tagline */}
         <div className="flex flex-col gap-4">
           <div className="relative h-12 w-36">
-            <Image src={LOGO_WHITE_TAGLINE} alt="Intermac LATAM" fill className="object-contain object-left" />
+            <Media
+              src={content?.logo}
+              alt="Intermac LATAM"
+              className="object-contain object-left"
+            />
           </div>
           <p className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] max-w-[320px] leading-[24px]">
-            Expertos en asistencia internacional al viajero. Brindamos soporte global con calidez humana.
+            {content?.tagline}
           </p>
         </div>
 
         {/* Right: nav + copyright */}
         <div className="flex flex-col gap-6 items-end">
           <nav className="flex gap-6 items-center">
-            {footerLinks.map((link) => (
+            {links.map((link, i) => (
               <Link
-                key={link.label}
-                href={link.href}
+                key={link?.label ?? i}
+                href={link?.href ?? "#"}
                 className="font-['Montserrat',sans-serif] text-[14px] text-[#e0e2e9] hover:text-white transition-colors whitespace-nowrap"
               >
-                {link.label}
+                {link?.label}
               </Link>
             ))}
           </nav>
           <p className="font-['Montserrat',sans-serif] text-[14px] text-[#e0e2e9]">
-            © 2024 Intermac LATAM. Todos los derechos reservados.
+            {content?.copyright}
           </p>
         </div>
       </div>
@@ -53,49 +47,63 @@ export default function Footer() {
       <div className="md:hidden px-6 py-12 flex flex-col gap-8 items-center">
         {/* Logo */}
         <div className="relative h-16 w-52">
-          <Image src={LOGO_WHITE_TAGLINE} alt="Intermac LATAM" fill className="object-contain" />
+          <Media
+            src={content?.logo}
+            alt="Intermac LATAM"
+            className="object-contain"
+          />
         </div>
 
         {/* Copyright */}
         <div className="text-center">
           <p className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] leading-[24px]">
-            © 2024 Intermac LATAM.
-          </p>
-          <p className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] leading-[24px]">
-            Todos los derechos reservados.
+            {content?.copyright}
           </p>
         </div>
 
-        {/* Links */}
+        {/* Links — two per row, matching the design */}
         <div className="flex flex-col items-center gap-4">
-          <div className="flex gap-8">
-            <Link href="#" className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors">
-              Privacidad
-            </Link>
-            <Link href="#" className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors">
-              Términos
-            </Link>
-          </div>
-          <div className="flex gap-8">
-            <Link href="#" className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors">
-              Preguntas Frecuentes
-            </Link>
-            <Link href="#" className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors">
-              Contacto
-            </Link>
-          </div>
+          {chunk(links, 2).map((row, i) => (
+            <div key={i} className="flex gap-8">
+              {row.map((link, j) => (
+                <Link
+                  key={link?.label ?? j}
+                  href={link?.href ?? "#"}
+                  className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors"
+                >
+                  {link?.label}
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
 
         {/* Social icons */}
         <div className="flex gap-4 items-center">
-          <div className="relative h-5 w-5">
-            <Image src={ICON_FACEBOOK} alt="Facebook" fill className="object-contain" />
-          </div>
-          <div className="relative h-5 w-[18px]">
-            <Image src={ICON_INSTAGRAM} alt="Instagram" fill className="object-contain" />
-          </div>
+          {social.map((item, i) => (
+            <Link
+              key={item?.name ?? i}
+              href={item?.href ?? "#"}
+              className="relative h-5 w-5"
+              aria-label={item?.name ?? undefined}
+            >
+              <Media
+                src={item?.icon}
+                alt={item?.name}
+                className="object-contain"
+              />
+            </Link>
+          ))}
         </div>
       </div>
     </footer>
   );
+}
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    out.push(items.slice(i, i + size));
+  }
+  return out;
 }

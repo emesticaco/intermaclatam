@@ -1,21 +1,25 @@
-import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
-import PartnerLogos from "@/components/PartnerLogos";
-import FeaturesSection from "@/components/FeaturesSection";
-import FAQSection from "@/components/FAQSection";
-import Footer from "@/components/Footer";
+import client from "../../tina/__generated__/client";
+import HomePage from "@/components/HomePage";
+import type { GlobalContent, HomeContent } from "@/types/content";
 
-export default function Home() {
+export default async function Home() {
+  const [home, global] = await Promise.all([
+    client.queries.home({ relativePath: "home.json" }),
+    client.queries.global({ relativePath: "index.json" }),
+  ]);
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1">
-        <HeroSection />
-        <PartnerLogos />
-        <FeaturesSection />
-        <FAQSection />
-      </main>
-      <Footer />
-    </div>
+    <HomePage
+      home={{
+        query: home.query,
+        variables: home.variables,
+        data: home.data as { home: HomeContent },
+      }}
+      global={{
+        query: global.query,
+        variables: global.variables,
+        data: global.data as { global: GlobalContent },
+      }}
+    />
   );
 }

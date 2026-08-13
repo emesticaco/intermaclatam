@@ -3,10 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      // Tina Cloud media store
       {
         protocol: "https",
-        hostname: "www.figma.com",
-        pathname: "/api/mcp/asset/**",
+        hostname: "assets.tina.io",
       },
     ],
   },

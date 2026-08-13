@@ -2,19 +2,26 @@
   "name": "intermaclatam",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "mkdir -p public/uploads && TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
+    "dev:cloud": "mkdir -p public/uploads && TINA_PUBLIC_IS_LOCAL=false tinacms dev -c \"next dev\"",
+    "build": "tinacms build && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "tinacms": "^3.9.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tinacms/cli": "^2.4.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

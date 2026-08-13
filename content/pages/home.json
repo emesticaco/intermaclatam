@@ -71,15 +71,15 @@
       {
         "title": "Red Médica Global",
         "body": "Acceso inmediato a los mejores hospitales y especialistas en más de 150 países, sin copagos ni demoras innecesarias.",
-        "icon": "",
-        "image": "",
+        "icon": "/uploads/assets/img/iconos/red-medica-icon.svg",
+        "image": "/uploads/assets/img/intermac-hospital.jpg",
         "ctaLabel": "",
         "ctaHref": ""
       },
       {
         "title": "Atención Multi-idioma",
         "body": "Te asistimos en tu propio idioma, las 24 horas del día, los 365 días del año. Tu tranquilidad es nuestra prioridad.",
-        "icon": "",
+        "icon": "/uploads/assets/img/iconos/atencion-icon.svg",
         "image": "",
         "ctaLabel": "Saber más",
         "ctaHref": "#"

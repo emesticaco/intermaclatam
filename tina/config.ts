@@ -19,11 +19,15 @@ const branch =
  * Everything here runs only in the browser and only on /admin.
  *
  * Fragile by nature, in two different ways:
- *   - the logo swap keys off the `viewBox` of Tina's own brand SVGs;
+ *   - the logo swap keys off the path data of Tina's own brand SVGs;
  *   - the version line keys off the literal string "TinaCMS v".
  * A release that redraws the marks or rewords the sidebar will silently stop
  * the branding from applying — nothing throws, the Tina defaults just come
  * back. Re-check after every tinacms / @tinacms/cli upgrade.
+ *
+ * Failing that way round is deliberate: matching too loosely rebrands Tina's
+ * UI icons, which costs the editor real usability, whereas matching too
+ * strictly only costs some branding.
  * ---------------------------------------------------------------------- */
 
 /** Wide "Emestica" wordmark, used for Tina's full logotype slot. */
@@ -47,14 +51,37 @@ const VERSION_LABEL_PREFIX = `${TINA_LABEL} v`;
 
 /*
  * Tina renders its brand as vector paths, not text — the sidebar header span
- * has an empty textContent — so the marks can only be identified by the
- * geometry of the SVG that draws them. As of tinacms 3.9.1 there are three:
- *   "0 0 1020 254" — full "llama + tinacms" logotype, slide-out nav header
- *   "0 0 32 32"    — llama icon, collapsed top toolbar
- *   "0 0 20 26"    — llama icon, "Enter edit mode" modal
+ * has an empty textContent — so a mark can only be identified by the drawing
+ * itself.
+ *
+ * It has to be the path data specifically, NOT the viewBox: Tina lays its UI
+ * icons out on the same 32x32 grid as its llama, so `viewBox="0 0 32 32"`
+ * matches the trash, drag-handle and add-item icons just as well as the brand
+ * mark, and keying off it rebrands every icon in the form editor.
+ *
+ * These prefixes are the opening path of the two icon components in
+ * tinacms/dist/index.js:
+ *   TinaExtendedIcon — full "llama + tinacms" logotype, slide-out nav header
+ *   TinaIcon         — llama mark, collapsed top toolbar
+ *
+ * Tina has at least one further mark (a 20x26 llama used in transient loading
+ * and edit-mode states) that is rendered inline and could not be pinned to a
+ * stable signature. It is deliberately left un-branded: showing Tina's llama
+ * for a moment during a load is a far smaller cost than rebranding controls
+ * the editor needs to stay legible.
  */
-const TINA_WORDMARK_VIEWBOX = "0 0 1020 254";
-const TINA_ICON_VIEWBOXES = new Set(["0 0 32 32", "0 0 20 26"]);
+const TINA_WORDMARK_PATH_PREFIX = "M115.685 110.921";
+const TINA_ICON_PATH_PREFIX = "M18.6466 14.5553";
+
+type TinaMark = "wordmark" | "icon";
+
+/** Identify a Tina brand mark by its drawing, or null for anything else. */
+const classifyMark = (svg: SVGElement): TinaMark | null => {
+  const d = svg.querySelector("path")?.getAttribute("d") ?? "";
+  if (d.startsWith(TINA_WORDMARK_PATH_PREFIX)) return "wordmark";
+  if (d.startsWith(TINA_ICON_PATH_PREFIX)) return "icon";
+  return null;
+};
 
 let brandingInstalled = false;
 
@@ -117,10 +144,10 @@ const installBranding = () => {
     const className = svg.getAttribute("class");
     if (className) img.className = className;
 
-    // Not every mark carries sizing classes — the modal spinner has none — and
-    // an unsized <img> falls back to the asset's intrinsic size, which is how a
-    // 50x50 favicon once rendered into a 20x26 slot. Pinning the measured box
-    // keeps any future asset, whatever its dimensions, inside the same space.
+    // Not every mark carries sizing classes, and an unsized <img> falls back
+    // to the asset's intrinsic size — which is how a 50x50 favicon once
+    // rendered into a 20x26 slot. Pinning the measured box keeps any future
+    // asset, whatever its dimensions, inside the same space.
     if (rect.width > 0 && rect.height > 0) {
       img.style.width = `${rect.width}px`;
       img.style.height = `${rect.height}px`;
@@ -136,13 +163,14 @@ const installBranding = () => {
 
   /** Swap every Tina brand mark for the Emestica equivalent. */
   const applyCustomLogo = () => {
-    const svgs = Array.from(document.querySelectorAll<SVGElement>("svg[viewBox]"));
+    const svgs = Array.from(document.querySelectorAll<SVGElement>("svg"));
 
     svgs.forEach((svg) => {
       if (svg.dataset.tinaBranded === "true") return;
-      const viewBox = svg.getAttribute("viewBox") ?? "";
+      const kind = classifyMark(svg);
+      if (!kind) return;
 
-      if (viewBox === TINA_WORDMARK_VIEWBOX) {
+      if (kind === "wordmark") {
         const img = replaceMark(svg, SIDEBAR_LOGO_SRC, "Emestica logo");
         if (!img) return;
 
@@ -170,9 +198,7 @@ const installBranding = () => {
         return;
       }
 
-      if (TINA_ICON_VIEWBOXES.has(viewBox)) {
-        replaceMark(svg, BRAND_ICON_SRC, "Emestica logo");
-      }
+      replaceMark(svg, BRAND_ICON_SRC, "Emestica logo");
     });
   };
 

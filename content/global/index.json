@@ -1,33 +1,65 @@
 {
   "header": {
-    "logo": "",
+    "logo": "/uploads/assets/img/brand/Intermac-logo.svg",
     "logoAlt": "Intermac LATAM",
     "navLinks": [
-      { "label": "Asistencias", "href": "#" },
-      { "label": "Coberturas", "href": "#" },
-      { "label": "Promociones", "href": "#" },
-      { "label": "Preguntas", "href": "#" }
+      {
+        "label": "Asistencias",
+        "href": "#"
+      },
+      {
+        "label": "Coberturas",
+        "href": "#"
+      },
+      {
+        "label": "Promociones",
+        "href": "#"
+      },
+      {
+        "label": "Preguntas",
+        "href": "#"
+      }
     ],
-    "loginLabel": "Ingresar",
+    "loginLabel": "Mi cuenta",
     "ctaLabel": "Central de Asistencias",
     "ctaLabelMobile": "Llamar",
     "ctaHref": "#",
-    "phoneIcon": "",
-    "menuIcon": ""
+    "phoneIcon": "/uploads/assets/img/iconos/call-Icon.svg",
+    "menuIcon": "/uploads/assets/img/iconos/burguer-icon.svg"
   },
   "footer": {
     "logo": "",
     "tagline": "Expertos en asistencia internacional al viajero. Brindamos soporte global con calidez humana.",
     "links": [
-      { "label": "Privacidad", "href": "#" },
-      { "label": "Términos", "href": "#" },
-      { "label": "Preguntas Frecuentes", "href": "#" },
-      { "label": "Contacto", "href": "#" }
+      {
+        "label": "Privacidad",
+        "href": "#"
+      },
+      {
+        "label": "Términos",
+        "href": "#"
+      },
+      {
+        "label": "Preguntas Frecuentes",
+        "href": "#"
+      },
+      {
+        "label": "Contacto",
+        "href": "#"
+      }
     ],
     "copyright": "© 2024 Intermac LATAM. Todos los derechos reservados.",
     "social": [
-      { "name": "Facebook", "href": "#", "icon": "" },
-      { "name": "Instagram", "href": "#", "icon": "" }
+      {
+        "name": "Facebook",
+        "href": "#",
+        "icon": ""
+      },
+      {
+        "name": "Instagram",
+        "href": "#",
+        "icon": ""
+      }
     ]
   }
 }

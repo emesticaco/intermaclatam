@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { tinaField } from "tinacms/dist/react";
 import { Media } from "@/lib/media";
 import type { FooterContent } from "@/types/content";
 
@@ -12,14 +13,20 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
       <div className="hidden md:flex max-w-[1200px] mx-auto px-6 py-12 items-center justify-between">
         {/* Left: logo + tagline */}
         <div className="flex flex-col gap-4">
-          <div className="relative h-12 w-36">
+          <div
+            className="relative h-12 w-36"
+            data-tina-field={tinaField(content, "logo")}
+          >
             <Media
               src={content?.logo}
               alt="Intermac LATAM"
               className="object-contain object-left"
             />
           </div>
-          <p className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] max-w-[320px] leading-[24px]">
+          <p
+            className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] max-w-[320px] leading-[24px]"
+            data-tina-field={tinaField(content, "tagline")}
+          >
             {content?.tagline}
           </p>
         </div>
@@ -32,12 +39,16 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
                 key={link?.label ?? i}
                 href={link?.href ?? "#"}
                 className="font-['Montserrat',sans-serif] text-[14px] text-[#e0e2e9] hover:text-white transition-colors whitespace-nowrap"
+                data-tina-field={tinaField(link, "label")}
               >
                 {link?.label}
               </Link>
             ))}
           </nav>
-          <p className="font-['Montserrat',sans-serif] text-[14px] text-[#e0e2e9]">
+          <p
+            className="font-['Montserrat',sans-serif] text-[14px] text-[#e0e2e9]"
+            data-tina-field={tinaField(content, "copyright")}
+          >
             {content?.copyright}
           </p>
         </div>
@@ -46,7 +57,10 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
       {/* Mobile layout */}
       <div className="md:hidden px-6 py-12 flex flex-col gap-8 items-center">
         {/* Logo */}
-        <div className="relative h-16 w-52">
+        <div
+          className="relative h-16 w-52"
+          data-tina-field={tinaField(content, "logo")}
+        >
           <Media
             src={content?.logo}
             alt="Intermac LATAM"
@@ -56,7 +70,10 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
 
         {/* Copyright */}
         <div className="text-center">
-          <p className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] leading-[24px]">
+          <p
+            className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] leading-[24px]"
+            data-tina-field={tinaField(content, "copyright")}
+          >
             {content?.copyright}
           </p>
         </div>
@@ -70,6 +87,7 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
                   key={link?.label ?? j}
                   href={link?.href ?? "#"}
                   className="font-['Montserrat',sans-serif] text-[16px] text-[#e0e2e9] hover:text-white transition-colors"
+                  data-tina-field={tinaField(link, "label")}
                 >
                   {link?.label}
                 </Link>
@@ -86,6 +104,7 @@ export default function Footer({ content }: { content?: FooterContent | null }) 
               href={item?.href ?? "#"}
               className="relative h-5 w-5"
               aria-label={item?.name ?? undefined}
+              data-tina-field={tinaField(item, "icon")}
             >
               <Media
                 src={item?.icon}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { tinaField } from "tinacms/dist/react";
 import type { QuotingContent } from "@/types/content";
 
 /**
@@ -106,13 +107,15 @@ export default function QuotingTool({
         <div className="grid grid-cols-4 gap-6 items-end">
           {/* Destination */}
           <div className="flex flex-col gap-2">
-            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]">
+            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]"
+            data-tina-field={tinaField(content, "destinationLabel")}>
               {content?.destinationLabel}
             </label>
             <div className="relative">
               <IconLocation className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#717882]" />
               <div className="bg-[#f8f9ff] flex items-center pl-10 pr-4 py-3 rounded-lg cursor-pointer">
-                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280] truncate">
+                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280] truncate"
+            data-tina-field={tinaField(content, "destinationPlaceholder")}>
                   {content?.destinationPlaceholder}
                 </span>
               </div>
@@ -121,13 +124,15 @@ export default function QuotingTool({
 
           {/* Dates */}
           <div className="flex flex-col gap-2">
-            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]">
+            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]"
+            data-tina-field={tinaField(content, "datesLabel")}>
               {content?.datesLabel}
             </label>
             <div className="relative">
               <IconCalendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#717882]" />
               <div className="bg-[#f8f9ff] flex items-center pl-10 pr-4 py-3 rounded-lg cursor-pointer">
-                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]">
+                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]"
+            data-tina-field={tinaField(content, "datesPlaceholder")}>
                   {content?.datesPlaceholder}
                 </span>
               </div>
@@ -136,13 +141,15 @@ export default function QuotingTool({
 
           {/* Passengers */}
           <div className="flex flex-col gap-2">
-            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]">
+            <label className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]"
+            data-tina-field={tinaField(content, "passengersLabel")}>
               {content?.passengersLabel}
             </label>
             <div className="relative">
               <IconPassengers className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-[22px] text-[#717882]" />
               <div className="bg-[#f8f9ff] flex items-center pl-10 pr-4 py-3 rounded-lg cursor-pointer">
-                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]">
+                <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]"
+            data-tina-field={tinaField(content, "passengersPlaceholder")}>
                   {content?.passengersPlaceholder}
                 </span>
               </div>
@@ -150,7 +157,8 @@ export default function QuotingTool({
           </div>
 
           {/* CTA */}
-          <button className="bg-[#29abe2] flex items-center justify-center gap-2 py-3 rounded-lg font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-white hover:bg-[#1a9bd0] transition-colors">
+          <button className="bg-[#29abe2] flex items-center justify-center gap-2 py-3 rounded-lg font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-white hover:bg-[#1a9bd0] transition-colors"
+            data-tina-field={tinaField(content, "ctaLabel")}>
             {content?.ctaLabel}
             <IconArrowRight className="h-4 w-4" />
           </button>
@@ -163,20 +171,24 @@ export default function QuotingTool({
             <input
               type="text"
               placeholder={content?.couponPlaceholder ?? ""}
+              data-tina-field={tinaField(content, "couponPlaceholder")}
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               className="font-['Montserrat',sans-serif] text-[14px] text-[#6b7280] bg-transparent outline-none placeholder:text-[#6b7280] w-[180px]"
             />
           </div>
           <div className="text-right">
-            <p className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]">
+            <p className="font-['Montserrat',sans-serif] text-[14px] text-[#717882]"
+            data-tina-field={tinaField(content, "priceLabel")}>
               {content?.priceLabel}
             </p>
             <div className="flex items-end justify-end gap-1">
-              <span className="font-['Ubuntu',sans-serif] font-bold text-[32px] text-[#005892] leading-tight">
+              <span className="font-['Ubuntu',sans-serif] font-bold text-[32px] text-[#005892] leading-tight"
+            data-tina-field={tinaField(content, "priceAmount")}>
                 {content?.priceAmount}
               </span>
-              <span className="font-['Ubuntu',sans-serif] font-medium text-[14px] text-[#005892] mb-1">
+              <span className="font-['Ubuntu',sans-serif] font-medium text-[14px] text-[#005892] mb-1"
+            data-tina-field={tinaField(content, "priceUnit")}>
                 {content?.priceUnit}
               </span>
             </div>
@@ -188,18 +200,21 @@ export default function QuotingTool({
       <div className="md:hidden p-6 flex flex-col gap-6">
         <div className="flex items-center gap-2">
           <IconLocation className="h-5 w-5 text-[#005892]" />
-          <h3 className="font-['Ubuntu',sans-serif] font-medium text-[20px] text-[#005892]">
+          <h3 className="font-['Ubuntu',sans-serif] font-medium text-[20px] text-[#005892]"
+            data-tina-field={tinaField(content, "titleMobile")}>
             {content?.titleMobile}
           </h3>
         </div>
 
         {/* Origin */}
         <div className="relative">
-          <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]">
+          <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]"
+            data-tina-field={tinaField(content, "originLabel")}>
             {content?.originLabel}
           </label>
           <div className="border border-[#c0c7d2] rounded-lg px-4 py-[19px]">
-            <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]">
+            <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]"
+            data-tina-field={tinaField(content, "originPlaceholder")}>
               {content?.originPlaceholder}
             </span>
           </div>
@@ -207,11 +222,13 @@ export default function QuotingTool({
 
         {/* Destination */}
         <div className="relative">
-          <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]">
+          <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]"
+            data-tina-field={tinaField(content, "destinationLabelMobile")}>
             {content?.destinationLabelMobile}
           </label>
           <div className="border border-[#c0c7d2] rounded-lg px-4 py-[19px]">
-            <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]">
+            <span className="font-['Montserrat',sans-serif] text-[16px] text-[#6b7280]"
+            data-tina-field={tinaField(content, "destinationPlaceholderMobile")}>
               {content?.destinationPlaceholderMobile}
             </span>
           </div>
@@ -220,7 +237,8 @@ export default function QuotingTool({
         {/* Dates row */}
         <div className="grid grid-cols-2 gap-4">
           <div className="relative">
-            <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]">
+            <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]"
+            data-tina-field={tinaField(content, "departureLabel")}>
               {content?.departureLabel}
             </label>
             <div className="border border-[#c0c7d2] rounded-lg p-4 flex items-center justify-between">
@@ -230,7 +248,8 @@ export default function QuotingTool({
             </div>
           </div>
           <div className="relative">
-            <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]">
+            <label className="absolute -top-2 left-3 bg-white px-1 font-['Montserrat',sans-serif] font-medium text-[12px] text-[#717882]"
+            data-tina-field={tinaField(content, "returnLabel")}>
               {content?.returnLabel}
             </label>
             <div className="border border-[#c0c7d2] rounded-lg p-4 flex items-center justify-between">
@@ -242,7 +261,8 @@ export default function QuotingTool({
         </div>
 
         {/* Mobile CTA */}
-        <button className="bg-[#54c7ff] shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.1),0px_2px_4px_-2px_rgba(0,0,0,0.1)] py-4 rounded-lg font-['Ubuntu',sans-serif] font-medium text-[16px] text-[#00516f] text-center hover:bg-[#3db9f5] transition-colors">
+        <button className="bg-[#54c7ff] shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.1),0px_2px_4px_-2px_rgba(0,0,0,0.1)] py-4 rounded-lg font-['Ubuntu',sans-serif] font-medium text-[16px] text-[#00516f] text-center hover:bg-[#3db9f5] transition-colors"
+            data-tina-field={tinaField(content, "ctaLabelMobile")}>
           {content?.ctaLabelMobile}
         </button>
       </div>

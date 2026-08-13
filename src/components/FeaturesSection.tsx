@@ -1,3 +1,4 @@
+import { tinaField } from "tinacms/dist/react";
 import { Media } from "@/lib/media";
 import type { FeatureItem, FeaturesContent } from "@/types/content";
 
@@ -50,28 +51,24 @@ const MOBILE_SLOTS = [
     title: "text-[24px] text-[#e9f1ff]",
     body: "text-[#e9f1ff] opacity-90",
     icon: "h-10 w-10",
-    inline: false,
   },
   {
     card: "bg-white border border-[#c0c7d2] shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col gap-4",
     title: "text-[20px] text-[#005892]",
     body: "text-[#404751]",
     icon: "h-8 w-8",
-    inline: false,
   },
   {
     card: "bg-[#54c7ff] shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col gap-4",
     title: "text-[20px] text-[#00516f]",
     body: "text-[#00516f]",
     icon: "h-9 w-9",
-    inline: false,
   },
   {
     card: "bg-white border border-[#c0c7d2] shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex gap-6 items-center min-h-[230px]",
     title: "text-[20px] text-[#005892]",
     body: "text-[#404751]",
     icon: "h-14 w-14 shrink-0",
-    inline: true,
   },
 ];
 
@@ -91,10 +88,23 @@ export default function FeaturesSection({
         {/* Heading */}
         <div className="flex flex-col gap-4 items-center text-center">
           <h2 className="font-['Ubuntu',sans-serif] font-bold text-[32px] text-[#005892] md:text-[#181c20]">
-            <span className="md:hidden">{content?.headingMobile}</span>
-            <span className="hidden md:inline">{content?.heading}</span>
+            <span
+              className="md:hidden"
+              data-tina-field={tinaField(content, "headingMobile")}
+            >
+              {content?.headingMobile}
+            </span>
+            <span
+              className="hidden md:inline"
+              data-tina-field={tinaField(content, "heading")}
+            >
+              {content?.heading}
+            </span>
           </h2>
-          <p className="hidden md:block font-['Montserrat',sans-serif] text-[16px] text-[#404751] max-w-[576px]">
+          <p
+            className="hidden md:block font-['Montserrat',sans-serif] text-[16px] text-[#404751] max-w-[576px]"
+            data-tina-field={tinaField(content, "subheading")}
+          >
             {content?.subheading}
           </p>
         </div>
@@ -104,18 +114,23 @@ export default function FeaturesSection({
           {items.map((item, i) => {
             const slot = DESKTOP_SLOTS[i] ?? DESKTOP_SLOTS[2];
 
-            const heading = (
+            const body = (
               <div className="flex flex-col gap-3">
-                <div className={`relative ${slot.icon}`}>
+                <div
+                  className={`relative ${slot.icon}`}
+                  data-tina-field={tinaField(item, "icon")}
+                >
                   <Media src={item.icon} className="object-contain" />
                 </div>
                 <h3
                   className={`font-['Ubuntu',sans-serif] font-medium text-[24px] ${slot.title}`}
+                  data-tina-field={tinaField(item, "title")}
                 >
                   {item.title}
                 </h3>
                 <p
                   className={`font-['Montserrat',sans-serif] text-[16px] leading-[24px] ${slot.body}`}
+                  data-tina-field={tinaField(item, "body")}
                 >
                   {item.body}
                 </p>
@@ -126,23 +141,12 @@ export default function FeaturesSection({
               <div key={item.title ?? i} className={slot.card}>
                 {slot.withImage ? (
                   <>
-                    <div className="flex flex-col gap-3 flex-1">
-                      <div className={`relative ${slot.icon}`}>
-                        <Media src={item.icon} className="object-contain" />
-                      </div>
-                      <h3
-                        className={`font-['Ubuntu',sans-serif] font-medium text-[24px] ${slot.title}`}
-                      >
-                        {item.title}
-                      </h3>
-                      <p
-                        className={`font-['Montserrat',sans-serif] text-[16px] leading-[24px] ${slot.body}`}
-                      >
-                        {item.body}
-                      </p>
-                    </div>
+                    <div className="flex flex-col gap-3 flex-1">{body}</div>
                     {item.image && (
-                      <div className="relative h-48 w-60 rounded-lg overflow-hidden shrink-0">
+                      <div
+                        className="relative h-48 w-60 rounded-lg overflow-hidden shrink-0"
+                        data-tina-field={tinaField(item, "image")}
+                      >
                         <Media
                           src={item.image}
                           alt={item.title}
@@ -153,11 +157,12 @@ export default function FeaturesSection({
                   </>
                 ) : (
                   <>
-                    {heading}
+                    {body}
                     {item.ctaLabel && (
                       <a
                         href={item.ctaHref ?? "#"}
                         className="flex items-center gap-2 mt-8 text-white font-['Montserrat',sans-serif] text-[16px] hover:opacity-80 transition-opacity"
+                        data-tina-field={tinaField(item, "ctaLabel")}
                       >
                         {item.ctaLabel}
                       </a>
@@ -174,31 +179,28 @@ export default function FeaturesSection({
           {itemsMobile.map((item, i) => {
             const slot = MOBILE_SLOTS[i] ?? MOBILE_SLOTS[1];
 
-            const icon = (
-              <div className={`relative ${slot.icon}`}>
-                <Media src={item.icon} className="object-contain" />
-              </div>
-            );
-
-            const text = (
-              <div className="flex flex-col gap-2">
-                <h3
-                  className={`font-['Ubuntu',sans-serif] font-medium ${slot.title}`}
-                >
-                  {item.title}
-                </h3>
-                <p
-                  className={`font-['Montserrat',sans-serif] text-[16px] leading-[24px] ${slot.body}`}
-                >
-                  {item.body}
-                </p>
-              </div>
-            );
-
             return (
               <div key={item.title ?? i} className={slot.card}>
-                {icon}
-                {text}
+                <div
+                  className={`relative ${slot.icon}`}
+                  data-tina-field={tinaField(item, "icon")}
+                >
+                  <Media src={item.icon} className="object-contain" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3
+                    className={`font-['Ubuntu',sans-serif] font-medium ${slot.title}`}
+                    data-tina-field={tinaField(item, "title")}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className={`font-['Montserrat',sans-serif] text-[16px] leading-[24px] ${slot.body}`}
+                    data-tina-field={tinaField(item, "body")}
+                  >
+                    {item.body}
+                  </p>
+                </div>
               </div>
             );
           })}

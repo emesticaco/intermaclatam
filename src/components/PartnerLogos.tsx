@@ -1,3 +1,4 @@
+import { tinaField } from "tinacms/dist/react";
 import { Media } from "@/lib/media";
 import type { PartnersContent } from "@/types/content";
 
@@ -11,7 +12,10 @@ export default function PartnerLogos({
   return (
     <section className="bg-white md:bg-[#eceef4] py-16 md:py-12">
       <div className="max-w-[1200px] mx-auto px-6 flex flex-col gap-8 items-center">
-        <p className="font-['Montserrat',sans-serif] font-medium text-[15px] md:text-[14px] tracking-[1.5px] md:tracking-[1.4px] text-[#717882] text-center uppercase">
+        <p
+          className="font-['Montserrat',sans-serif] font-medium text-[15px] md:text-[14px] tracking-[1.5px] md:tracking-[1.4px] text-[#717882] text-center uppercase"
+          data-tina-field={tinaField(content, "heading")}
+        >
           {content?.heading}
         </p>
         <div className="relative flex gap-12 items-center justify-center opacity-50 md:opacity-60 w-full">
@@ -24,6 +28,7 @@ export default function PartnerLogos({
               key={logo?.alt ?? i}
               className="relative shrink-0"
               style={{ width: logo?.width ?? 40, height: logo?.height ?? 40 }}
+              data-tina-field={tinaField(logo, "src")}
             >
               <Media
                 src={logo?.src}

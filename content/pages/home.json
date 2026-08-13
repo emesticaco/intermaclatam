@@ -31,11 +31,36 @@
   "partners": {
     "heading": "EMPRESAS QUE CONFÍAN EN NOSOTROS",
     "logos": [
-      { "src": "", "alt": "Partner 1", "width": 44, "height": 36 },
-      { "src": "", "alt": "Partner 2", "width": 32, "height": 40 },
-      { "src": "", "alt": "Partner 3", "width": 32, "height": 40 },
-      { "src": "", "alt": "Partner 4", "width": 44, "height": 40 },
-      { "src": "", "alt": "Partner 5", "width": 32, "height": 40 }
+      {
+        "src": "",
+        "alt": "Partner 1",
+        "width": 44,
+        "height": 36
+      },
+      {
+        "src": "",
+        "alt": "Partner 2",
+        "width": 32,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 3",
+        "width": 32,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 4",
+        "width": 44,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 5",
+        "width": 32,
+        "height": 40
+      }
     ]
   },
   "features": {
@@ -134,7 +159,7 @@
         "question": "¿Qué incluye la cobertura básica?",
         "answer": "La cobertura básica incluye asistencia médica de urgencia, hospitalización, repatriación y atención 24/7 en tu idioma.",
         "defaultOpen": false,
-        "mobileOnly": true
+        "mobileOnly": false
       },
       {
         "question": "¿Puedo contratar si ya estoy de viaje?",

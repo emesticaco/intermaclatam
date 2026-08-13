@@ -37,5 +37,6 @@ next-env.d.ts
 
 node_modules
 tina/__generated__
-# Local dev media (production media lives in Tina Cloud)
-/public/uploads/
+
+# Local working notes — not part of the deployed site
+/docs/

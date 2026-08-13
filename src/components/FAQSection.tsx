@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { tinaField } from "tinacms/dist/react";
 import type { FaqContent, FaqItem } from "@/types/content";
 
-function FAQItem({
-  question,
-  answer,
-  defaultOpen = false,
-}: {
-  question?: string | null;
-  answer?: string | null;
-  defaultOpen?: boolean | null;
-}) {
-  const [open, setOpen] = useState(Boolean(defaultOpen));
+function FAQItem({ item }: { item: FaqItem }) {
+  const [open, setOpen] = useState(Boolean(item.defaultOpen));
 
   return (
     <div className="bg-white border border-[rgba(192,199,210,0.3)] rounded-lg overflow-hidden">
@@ -21,8 +14,11 @@ function FAQItem({
         className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
         aria-expanded={open}
       >
-        <span className="font-['Montserrat',sans-serif] text-[16px] text-[#005892] md:text-[#181c20]">
-          {question}
+        <span
+          className="font-['Montserrat',sans-serif] text-[16px] text-[#005892] md:text-[#181c20]"
+          data-tina-field={tinaField(item, "question")}
+        >
+          {item.question}
         </span>
         <span
           className={`shrink-0 text-[#005892] transition-transform duration-200 ${
@@ -41,10 +37,13 @@ function FAQItem({
           </svg>
         </span>
       </button>
-      {open && answer && (
+      {open && item.answer && (
         <div className="border-t border-[rgba(192,199,210,0.2)] px-6 py-4">
-          <p className="font-['Montserrat',sans-serif] text-[14px] text-[#404751] leading-[19.6px]">
-            {answer}
+          <p
+            className="font-['Montserrat',sans-serif] text-[14px] text-[#404751] leading-[19.6px]"
+            data-tina-field={tinaField(item, "answer")}
+          >
+            {item.answer}
           </p>
         </div>
       )}
@@ -67,36 +66,39 @@ export default function FAQSection({
       <div className="max-w-[768px] mx-auto px-6 flex flex-col gap-12">
         {/* Heading */}
         <div className="flex flex-col gap-4 items-center text-center">
-          <h2 className="font-['Ubuntu',sans-serif] font-bold text-[32px] text-[#005892] md:text-[#181c20]">
+          <h2
+            className="font-['Ubuntu',sans-serif] font-bold text-[32px] text-[#005892] md:text-[#181c20]"
+            data-tina-field={tinaField(content, "heading")}
+          >
             {content?.heading}
           </h2>
           <p className="font-['Montserrat',sans-serif] text-[16px] text-[#404751]">
-            <span className="md:hidden">{content?.subheadingMobile}</span>
-            <span className="hidden md:inline">{content?.subheading}</span>
+            <span
+              className="md:hidden"
+              data-tina-field={tinaField(content, "subheadingMobile")}
+            >
+              {content?.subheadingMobile}
+            </span>
+            <span
+              className="hidden md:inline"
+              data-tina-field={tinaField(content, "subheading")}
+            >
+              {content?.subheading}
+            </span>
           </p>
         </div>
 
         {/* Desktop FAQs */}
         <div className="hidden md:flex flex-col gap-4">
           {desktopFaqs.map((faq, i) => (
-            <FAQItem
-              key={faq.question ?? i}
-              question={faq.question}
-              answer={faq.answer}
-              defaultOpen={faq.defaultOpen}
-            />
+            <FAQItem key={faq.question ?? i} item={faq} />
           ))}
         </div>
 
         {/* Mobile FAQs */}
         <div className="md:hidden flex flex-col gap-4">
           {mobileFaqs.map((faq, i) => (
-            <FAQItem
-              key={faq.question ?? i}
-              question={faq.question}
-              answer={faq.answer}
-              defaultOpen={faq.defaultOpen}
-            />
+            <FAQItem key={faq.question ?? i} item={faq} />
           ))}
         </div>
       </div>

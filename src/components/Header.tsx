@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { tinaField } from "tinacms/dist/react";
 import { Media } from "@/lib/media";
 import type { HeaderContent } from "@/types/content";
 
@@ -15,7 +16,10 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
       <div className="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center shrink-0">
-          <div className="relative h-11 w-36">
+          <div
+            className="relative h-11 w-36"
+            data-tina-field={tinaField(content, "logo")}
+          >
             <Media
               src={content?.logo}
               alt={content?.logoAlt ?? "Intermac LATAM"}
@@ -31,6 +35,7 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
               key={link?.label ?? i}
               href={link?.href ?? "#"}
               className="font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#f2f2f2] hover:text-white transition-colors"
+              data-tina-field={tinaField(link, "label")}
             >
               {link?.label}
             </Link>
@@ -39,12 +44,16 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
 
         {/* Desktop Actions */}
         <div className="hidden md:flex gap-4 items-center">
-          <button className="font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#f2f2f2] px-4 py-2 rounded-lg hover:text-white transition-colors">
+          <button
+            className="font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#f2f2f2] px-4 py-2 rounded-lg hover:text-white transition-colors"
+            data-tina-field={tinaField(content, "loginLabel")}
+          >
             {content?.loginLabel}
           </button>
           <a
             href={content?.ctaHref ?? "#"}
             className="bg-[#d9e021] shadow-[0px_0px_7.5px_rgba(217,224,33,0.4)] flex gap-2 items-center px-6 py-3 rounded-full font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#1d1d1b] whitespace-nowrap hover:bg-[#c8d01e] transition-colors"
+            data-tina-field={tinaField(content, "ctaLabel")}
           >
             <div className="relative h-[18px] w-[17px]">
               <Media src={content?.phoneIcon} className="object-contain" />
@@ -58,6 +67,7 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
           <a
             href={content?.ctaHref ?? "#"}
             className="bg-[#d9e021] shadow-[0px_0px_7.5px_rgba(217,224,33,0.4)] flex gap-2 items-center px-5 py-3 rounded-full font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#1d1d1b] hover:bg-[#c8d01e] transition-colors"
+            data-tina-field={tinaField(content, "ctaLabelMobile")}
           >
             <div className="relative h-[18px] w-[17px]">
               <Media src={content?.phoneIcon} className="object-contain" />
@@ -69,7 +79,10 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
             className="flex flex-col items-center justify-center text-white"
             aria-label="Menú"
           >
-            <div className="relative h-4 w-6">
+            <div
+              className="relative h-4 w-6"
+              data-tina-field={tinaField(content, "menuIcon")}
+            >
               <Media src={content?.menuIcon} className="object-contain" />
             </div>
           </button>
@@ -85,11 +98,15 @@ export default function Header({ content }: { content?: HeaderContent | null }) 
               href={link?.href ?? "#"}
               className="font-['Montserrat',sans-serif] font-medium text-[15px] tracking-[0.5px] text-[#f2f2f2] py-2"
               onClick={() => setMobileOpen(false)}
+              data-tina-field={tinaField(link, "label")}
             >
               {link?.label}
             </Link>
           ))}
-          <button className="font-['Montserrat',sans-serif] font-medium text-[15px] text-[#f2f2f2] py-2 text-left">
+          <button
+            className="font-['Montserrat',sans-serif] font-medium text-[15px] text-[#f2f2f2] py-2 text-left"
+            data-tina-field={tinaField(content, "loginLabel")}
+          >
             {content?.loginLabel}
           </button>
         </div>

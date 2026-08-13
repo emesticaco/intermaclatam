@@ -1,4 +1,4 @@
-import { defineConfig } from "tinacms";
+import { defineConfig, type TinaCMS } from "tinacms";
 
 // Vercel exposes the deployed branch; fall back to main for local work.
 const branch =
@@ -265,9 +265,40 @@ const installBranding = () => {
   }
 };
 
+/* -------------------------------------------------------------------------
+ * Hiding the sidebar's CLOUD section
+ *
+ * Tina registers "Project Config", "User Management" and "Support" as
+ * `cloud-config` plugins whenever the editor talks to Tina Cloud rather than
+ * the local filesystem, and renders them under a CLOUD heading in the nav.
+ * All three deep-link into app.tina.io — Emestica's account — which is not
+ * somewhere an Intermac editor should be sent.
+ *
+ * Unlike the branding above, this one has a supported API, so nothing here
+ * touches the DOM: the plugins are removed through the plugin manager and the
+ * heading goes with them.
+ * ---------------------------------------------------------------------- */
+
+const CLOUD_PLUGIN_TYPE = "cloud-config";
+
+const hideCloudMenu = (cms: TinaCMS) => {
+  const cloudPlugins = cms.plugins.getType(CLOUD_PLUGIN_TYPE);
+  const removeAll = () =>
+    cloudPlugins.all().forEach((plugin) => cloudPlugins.remove(plugin));
+
+  removeAll();
+
+  // Tina adds these during client setup, which can run again after a login or
+  // a branch switch, so a one-shot removal would let them reappear. Removing
+  // dispatches `plugin:remove:*` rather than `plugin:add:*`, so re-running the
+  // removal from the add event cannot re-enter.
+  cms.events.subscribe(`plugin:add:${CLOUD_PLUGIN_TYPE}`, removeAll);
+};
+
 export default defineConfig({
   cmsCallback: (cms) => {
     installBranding();
+    hideCloudMenu(cms);
     return cms;
   },
 

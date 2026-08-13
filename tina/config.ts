@@ -33,6 +33,13 @@ const BRAND_ICON_SRC = "/brand/favicon.svg";
 const FAVICON_SRC = BRAND_ICON_SRC;
 /** Sits next to the logo, which already carries the "Emestica" wordmark. */
 const BRAND_TEXT = "WebPanel";
+/**
+ * Sizing for the wordmark slot. Kept generous enough to stay legible and
+ * tight enough that logo + BRAND_TEXT clear the nav's close button — Tina's
+ * header span is ~272px wide.
+ */
+const WORDMARK_HEIGHT = "1.5rem";
+const WORDMARK_MAX_WIDTH = "60%";
 /** Tab title, and the replacement for "TinaCMS" in the version line. */
 const BRAND_TITLE = "Emestica WebPanel";
 const TINA_LABEL = "TinaCMS";
@@ -95,6 +102,11 @@ const installBranding = () => {
    */
   const replaceMark = (svg: SVGElement, src: string, alt: string) => {
     if (svg.dataset.tinaBranded === "true") return null;
+
+    // Measure before hiding: the replacement has to occupy the slot Tina laid
+    // out, and the incoming asset's own dimensions have nothing to do with it.
+    const rect = svg.getBoundingClientRect();
+
     svg.dataset.tinaBranded = "true";
     svg.style.display = "none";
 
@@ -104,6 +116,17 @@ const installBranding = () => {
 
     const className = svg.getAttribute("class");
     if (className) img.className = className;
+
+    // Not every mark carries sizing classes — the modal spinner has none — and
+    // an unsized <img> falls back to the asset's intrinsic size, which is how a
+    // 50x50 favicon once rendered into a 20x26 slot. Pinning the measured box
+    // keeps any future asset, whatever its dimensions, inside the same space.
+    if (rect.width > 0 && rect.height > 0) {
+      img.style.width = `${rect.width}px`;
+      img.style.height = `${rect.height}px`;
+      img.style.objectFit = "contain";
+    }
+
     img.style.display = "inline-block";
     img.style.verticalAlign = "middle";
 
@@ -120,7 +143,17 @@ const installBranding = () => {
       const viewBox = svg.getAttribute("viewBox") ?? "";
 
       if (viewBox === TINA_WORDMARK_VIEWBOX) {
-        if (!replaceMark(svg, SIDEBAR_LOGO_SRC, "Emestica logo")) return;
+        const img = replaceMark(svg, SIDEBAR_LOGO_SRC, "Emestica logo");
+        if (!img) return;
+
+        // Tina's logotype stacks a llama against the wordmark, so its `h-8`
+        // buys a lot of height for little width. A plain wordmark at the same
+        // height is far wider and pushes the label into the close button, so
+        // this slot is sized explicitly rather than inheriting Tina's classes.
+        // Capping width keeps that true for whatever asset is dropped in next.
+        img.style.height = WORDMARK_HEIGHT;
+        img.style.width = "auto";
+        img.style.maxWidth = WORDMARK_MAX_WIDTH;
 
         // The logotype already reads "tinacms"; the Emestica wordmark carries
         // no product name, so the label is appended alongside it.
@@ -131,6 +164,7 @@ const installBranding = () => {
           brandText.dataset.tinaBrandText = "true";
           brandText.style.marginLeft = "0.25rem";
           brandText.style.fontWeight = "600";
+          brandText.style.whiteSpace = "nowrap";
           host.appendChild(brandText);
         }
         return;

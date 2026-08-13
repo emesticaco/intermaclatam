@@ -7,7 +7,210 @@ const branch =
   process.env.HEAD ||
   "main";
 
+/* -------------------------------------------------------------------------
+ * Editor branding
+ *
+ * TinaCMS exposes no supported API for replacing the sidebar logo, the
+ * version line, the tab title or the favicon, so these are applied as a
+ * client-side DOM patch driven by a MutationObserver. Nothing in the
+ * `tinacms` package is forked or patched.
+ *
+ * Entry point is `cmsCallback` below, which Tina invokes once on boot.
+ * Everything here runs only in the browser and only on /admin.
+ *
+ * Fragile by nature, in two different ways:
+ *   - the logo swap keys off the `viewBox` of Tina's own brand SVGs;
+ *   - the version line keys off the literal string "TinaCMS v".
+ * A release that redraws the marks or rewords the sidebar will silently stop
+ * the branding from applying — nothing throws, the Tina defaults just come
+ * back. Re-check after every tinacms / @tinacms/cli upgrade.
+ * ---------------------------------------------------------------------- */
+
+/** Wide "Emestica" wordmark, used for Tina's full logotype slot. */
+const SIDEBAR_LOGO_SRC = "/brand/tina-sidebar-logo.svg";
+/** Square mark, used for Tina's llama icon slots and as the favicon. */
+const BRAND_ICON_SRC = "/brand/favicon.svg";
+const FAVICON_SRC = BRAND_ICON_SRC;
+/** Sits next to the logo, which already carries the "Emestica" wordmark. */
+const BRAND_TEXT = "WebPanel";
+/** Tab title, and the replacement for "TinaCMS" in the version line. */
+const BRAND_TITLE = "Emestica WebPanel";
+const TINA_LABEL = "TinaCMS";
+const VERSION_LABEL_PREFIX = `${TINA_LABEL} v`;
+
+/*
+ * Tina renders its brand as vector paths, not text — the sidebar header span
+ * has an empty textContent — so the marks can only be identified by the
+ * geometry of the SVG that draws them. As of tinacms 3.9.1 there are three:
+ *   "0 0 1020 254" — full "llama + tinacms" logotype, slide-out nav header
+ *   "0 0 32 32"    — llama icon, collapsed top toolbar
+ *   "0 0 20 26"    — llama icon, "Enter edit mode" modal
+ */
+const TINA_WORDMARK_VIEWBOX = "0 0 1020 254";
+const TINA_ICON_VIEWBOXES = new Set(["0 0 32 32", "0 0 20 26"]);
+
+let brandingInstalled = false;
+
+const installBranding = () => {
+  if (brandingInstalled || typeof window === "undefined") {
+    return;
+  }
+  brandingInstalled = true;
+
+  /**
+   * "TinaCMS v3.9.1" -> "Emestica WebPanel v3.9.1".
+   *
+   * Rewrites the text node itself rather than the element, so it can't
+   * clobber an ancestor that happens to share the same textContent. Runs
+   * before the logo swap: once the version line no longer contains
+   * "TinaCMS", the logo matcher can't mistake it for the sidebar header.
+   */
+  const relabelVersion = () => {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const targets: Text[] = [];
+
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (node.nodeValue?.includes(VERSION_LABEL_PREFIX)) {
+        targets.push(node as Text);
+      }
+    }
+
+    targets.forEach((textNode) => {
+      textNode.nodeValue =
+        textNode.nodeValue?.split(VERSION_LABEL_PREFIX).join(`${BRAND_TITLE} v`) ??
+        null;
+    });
+  };
+
+  /**
+   * Hide one Tina brand SVG and drop an <img> in its place.
+   *
+   * The SVG is hidden rather than removed so React's reconciliation is left
+   * alone, and the replacement inherits the SVG's own class list — Tina sizes
+   * and spaces these marks with utility classes (`h-8 w-auto`, `mr-2`, …), so
+   * reusing them keeps the swap aligned with whatever layout Tina intended.
+   *
+   * Returns null when the mark was already swapped on an earlier pass, which
+   * is what keeps the MutationObserver from stacking images.
+   */
+  const replaceMark = (svg: SVGElement, src: string, alt: string) => {
+    if (svg.dataset.tinaBranded === "true") return null;
+    svg.dataset.tinaBranded = "true";
+    svg.style.display = "none";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = alt;
+
+    const className = svg.getAttribute("class");
+    if (className) img.className = className;
+    img.style.display = "inline-block";
+    img.style.verticalAlign = "middle";
+
+    svg.insertAdjacentElement("afterend", img);
+    return img;
+  };
+
+  /** Swap every Tina brand mark for the Emestica equivalent. */
+  const applyCustomLogo = () => {
+    const svgs = Array.from(document.querySelectorAll<SVGElement>("svg[viewBox]"));
+
+    svgs.forEach((svg) => {
+      if (svg.dataset.tinaBranded === "true") return;
+      const viewBox = svg.getAttribute("viewBox") ?? "";
+
+      if (viewBox === TINA_WORDMARK_VIEWBOX) {
+        if (!replaceMark(svg, SIDEBAR_LOGO_SRC, "Emestica logo")) return;
+
+        // The logotype already reads "tinacms"; the Emestica wordmark carries
+        // no product name, so the label is appended alongside it.
+        const host = svg.parentElement;
+        if (host && !host.querySelector("[data-tina-brand-text]")) {
+          const brandText = document.createElement("span");
+          brandText.textContent = BRAND_TEXT;
+          brandText.dataset.tinaBrandText = "true";
+          brandText.style.marginLeft = "0.25rem";
+          brandText.style.fontWeight = "600";
+          host.appendChild(brandText);
+        }
+        return;
+      }
+
+      if (TINA_ICON_VIEWBOXES.has(viewBox)) {
+        replaceMark(svg, BRAND_ICON_SRC, "Emestica logo");
+      }
+    });
+  };
+
+  /**
+   * public/admin/index.html is generated by the Tina CLI with a hashed
+   * favicon filename and <title>TinaCMS</title>, and is gitignored — so both
+   * are repointed at runtime instead of via a post-build step.
+   */
+  const applyDocumentBranding = () => {
+    if (document.title !== BRAND_TITLE) {
+      document.title = BRAND_TITLE;
+    }
+
+    if (!document.head) return;
+
+    let icon = document.head.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (!icon) {
+      icon = document.createElement("link");
+      icon.rel = "icon";
+      document.head.appendChild(icon);
+    }
+    if (icon.getAttribute("href") !== FAVICON_SRC) {
+      icon.setAttribute("href", FAVICON_SRC);
+      icon.setAttribute("type", "image/svg+xml");
+    }
+  };
+
+  const applyBranding = () => {
+    relabelVersion();
+    applyCustomLogo();
+    applyDocumentBranding();
+  };
+
+  const init = () => {
+    if (!document.body) return;
+
+    // Tina re-renders the sidebar constantly (navigation, form state, saves),
+    // which would wipe a one-shot edit. Every pass is idempotent — guarded by
+    // the data-* flags and value checks — so observing our own mutations
+    // doesn't loop.
+    const observer = new MutationObserver(applyBranding);
+    observer.observe(document.body, { childList: true, subtree: true });
+    applyBranding();
+
+    const cleanup = () => {
+      observer.disconnect();
+      window.removeEventListener("beforeunload", cleanup);
+    };
+    window.addEventListener("beforeunload", cleanup);
+  };
+
+  // cmsCallback can fire before the DOM is parsed.
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    init();
+  } else {
+    const onReady = () => {
+      init();
+      window.removeEventListener("DOMContentLoaded", onReady);
+    };
+    window.addEventListener("DOMContentLoaded", onReady);
+  }
+};
+
 export default defineConfig({
+  cmsCallback: (cms) => {
+    installBranding();
+    return cms;
+  },
+
   branch,
 
   // From app.tina.io → project settings

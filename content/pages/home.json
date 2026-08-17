@@ -171,13 +171,13 @@
         "question": "¿Cómo solicito asistencia en destino?",
         "answer": "Llama a nuestra central de asistencias internacional o usa nuestra plataforma digital para solicitar ayuda desde cualquier parte del mundo.",
         "defaultOpen": false,
-        "mobileOnly": true
+        "mobileOnly": false
       },
       {
         "question": "¿Cuál es el tiempo de respuesta?",
         "answer": "Nuestro equipo responde en menos de 5 minutos ante cualquier emergencia, garantizando atención inmediata cuando más lo necesitas.",
         "defaultOpen": false,
-        "mobileOnly": true
+        "mobileOnly": false
       }
     ]
   }

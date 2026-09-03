@@ -1,0 +1,184 @@
+{
+  "hero": {
+    "title": "Tu seguridad no tiene fronteras.",
+    "subtitle": "Protegemos tus viajes en todo el mundo con asistencia médica integral y soporte 24/7. Cotizá ahora tu tranquilidad.",
+    "titleMobile": "Viaja con la tranquilidad de estar protegido.",
+    "subtitleMobile": "Asistencia al viajero 24/7 con respaldo global en cada paso de tu aventura.",
+    "background": "/uploads/assets/img/intermac-seguro-viaje-familiar-desktop.jpg",
+    "backgroundMobile": "/uploads/assets/img/intermac-assistance-senior-couple-hiking-travel-assistance-mobile.webp"
+  },
+  "quoting": {
+    "titleMobile": "Cotiza tu Seguro",
+    "destinationLabel": "Origen y Destino",
+    "destinationPlaceholder": "Selecciona un destino",
+    "datesLabel": "Fechas de Viaje",
+    "datesPlaceholder": "Ida y Vuelta",
+    "passengersLabel": "Pasajeros (Edades)",
+    "passengersPlaceholder": "Ej: 25, 32, 5",
+    "ctaLabel": "Cotizar Ahora",
+    "ctaLabelMobile": "Ver Planes de Cobertura",
+    "couponPlaceholder": "Ingresa cupón de Descuento",
+    "priceLabel": "Desde solo",
+    "priceAmount": "USD 4.50",
+    "priceUnit": "/día",
+    "originLabel": "Origen",
+    "originPlaceholder": "¿De dónde vienes?",
+    "destinationLabelMobile": "Destino",
+    "destinationPlaceholderMobile": "¿A dónde vas?",
+    "departureLabel": "Salida",
+    "returnLabel": "Regreso"
+  },
+  "partners": {
+    "heading": "EMPRESAS QUE CONFÍAN EN NOSOTROS",
+    "logos": [
+      {
+        "src": "",
+        "alt": "Partner 1",
+        "width": 44,
+        "height": 36
+      },
+      {
+        "src": "",
+        "alt": "Partner 2",
+        "width": 32,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 3",
+        "width": 32,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 4",
+        "width": 44,
+        "height": 40
+      },
+      {
+        "src": "",
+        "alt": "Partner 5",
+        "width": 32,
+        "height": 40
+      }
+    ]
+  },
+  "features": {
+    "heading": "¿Por qué elegir Intermac LATAM?",
+    "headingMobile": "Por qué elegir Intermac",
+    "subheading": "Más de 20 años brindando soluciones de asistencia global con la tecnología más avanzada del mercado.",
+    "items": [
+      {
+        "title": "Red Médica Global",
+        "body": "Acceso inmediato a los mejores hospitales y especialistas en más de 150 países, sin copagos ni demoras innecesarias.",
+        "icon": "/uploads/assets/img/iconos/red-medica-icon.svg",
+        "image": "/uploads/assets/img/intermac-hospital.jpg",
+        "ctaLabel": "",
+        "ctaHref": ""
+      },
+      {
+        "title": "Atención Multi-idioma",
+        "body": "Te asistimos en tu propio idioma, las 24 horas del día, los 365 días del año. Tu tranquilidad es nuestra prioridad.",
+        "icon": "/uploads/assets/img/iconos/atencion-icon.svg",
+        "image": "/uploads/assets/img/intermac-atencion-multi-idioma.jpeg",
+        "ctaLabel": "Saber más",
+        "ctaHref": "#"
+      },
+      {
+        "title": "Gestión 100% Digital",
+        "body": "Descargá tu voucher, gestioná reembolsos y pedí asistencia directamente desde nuestra plataforma.",
+        "icon": "",
+        "image": "",
+        "ctaLabel": "",
+        "ctaHref": ""
+      },
+      {
+        "title": "Cancelación de Viaje",
+        "body": "Protección integral ante imprevistos que te obliguen a suspender tus planes antes de partir.",
+        "icon": "",
+        "image": "",
+        "ctaLabel": "",
+        "ctaHref": ""
+      },
+      {
+        "title": "Seguro de Equipaje",
+        "body": "Seguimiento y compensación inmediata en caso de pérdida o demora en la entrega de tus maletas.",
+        "icon": "",
+        "image": "",
+        "ctaLabel": "",
+        "ctaHref": ""
+      }
+    ],
+    "itemsMobile": [
+      {
+        "title": "Respaldo Internacional",
+        "body": "Red propia de prestadores en más de 150 países con atención inmediata.",
+        "icon": ""
+      },
+      {
+        "title": "Activación Instantánea",
+        "body": "Tu voucher se emite al instante y llega a tu correo en segundos.",
+        "icon": ""
+      },
+      {
+        "title": "Soporte 24/7",
+        "body": "Atención humana, rápida y eficiente en tu propio idioma, sin importar la hora.",
+        "icon": ""
+      },
+      {
+        "title": "Gestión Digital",
+        "body": "Descarga tus vouchers y gestiona reclamos desde tu panel personal.",
+        "icon": ""
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Preguntas Frecuentes",
+    "subheading": "Todo lo que necesitás saber antes de tu próximo viaje.",
+    "subheadingMobile": "Resolvemos tus dudas sobre nuestras coberturas.",
+    "items": [
+      {
+        "question": "¿Cuándo debo contratar mi asistencia?",
+        "answer": "Lo ideal es contratarla al menos 24 horas antes de tu viaje. Algunos beneficios como la cancelación de viaje requieren ser contratados con mayor antelación.",
+        "defaultOpen": true,
+        "mobileOnly": false
+      },
+      {
+        "question": "¿Qué hago en caso de una emergencia?",
+        "answer": "Comunícate de inmediato con nuestra central de asistencias disponible 24/7. Te guiaremos paso a paso y coordinaremos los servicios que necesites en tu destino.",
+        "defaultOpen": false,
+        "mobileOnly": false
+      },
+      {
+        "question": "¿Cubre preexistencias médicas?",
+        "answer": "Dependiendo del plan contratado, algunas preexistencias médicas pueden estar cubiertas. Te recomendamos revisar los términos y condiciones del plan seleccionado.",
+        "defaultOpen": false,
+        "mobileOnly": false
+      },
+      {
+        "question": "¿Qué incluye la cobertura básica?",
+        "answer": "La cobertura básica incluye asistencia médica de urgencia, hospitalización, repatriación y atención 24/7 en tu idioma.",
+        "defaultOpen": false,
+        "mobileOnly": false
+      },
+      {
+        "question": "¿Puedo contratar si ya estoy de viaje?",
+        "answer": "En algunos casos es posible contratar durante el viaje, aunque ciertos beneficios pueden tener un período de carencia. Contáctanos para más información.",
+        "defaultOpen": false,
+        "mobileOnly": true
+      },
+      {
+        "question": "¿Cómo solicito asistencia en destino?",
+        "answer": "Llama a nuestra central de asistencias internacional o usa nuestra plataforma digital para solicitar ayuda desde cualquier parte del mundo.",
+        "defaultOpen": false,
+        "mobileOnly": false
+      },
+      {
+        "question": "¿Cuál es el tiempo de respuesta?",
+        "answer": "Nuestro equipo responde en menos de 5 minutos ante cualquier emergencia, garantizando atención inmediata cuando más lo necesitas.",
+        "defaultOpen": false,
+        "mobileOnly": false
+      }
+    ]
+  }
+}

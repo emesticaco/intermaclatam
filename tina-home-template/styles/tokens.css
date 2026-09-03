@@ -1,0 +1,44 @@
+/* -------------------------------------------------------------------------
+ * Typography and brand tokens for the home template.
+ *
+ * Append this to your app's global stylesheet (the starter's `styles.css`, or
+ * `app/globals.css` in a plain Next scaffold). It expects Tailwind v4 —
+ * `@import "tailwindcss"` should already be there; don't add it twice.
+ *
+ * Two fonts: Ubuntu for headings, Montserrat for body. They are loaded by a
+ * <link> in the root layout, NOT by an @import here — CSS requires @import to
+ * precede every other rule, so appending this file to an existing stylesheet
+ * would put the import in an illegal position and the build would fail with
+ * "@import rules must precede all rules". See step 3b in the README.
+ *
+ * The components also name the families inline as `font-['Montserrat']` /
+ * `font-['Ubuntu']` (37 occurrences), so switching to `next/font` means
+ * touching all of them. See the README.
+ *
+ * Note the custom properties below are NOT wired into Tailwind's theme — they
+ * sit in plain `:root`, so no `bg-primary` utility is generated from them.
+ * The components hardcode hex literals instead. Moving these into an
+ * `@theme` block is a worthwhile improvement but is a behavioural change, not
+ * a copy. The README lists the full palette the components actually use.
+ * ---------------------------------------------------------------------- */
+
+
+:root {
+  --background: #f8f9ff;
+  --foreground: #181c20;
+  --color-primary: #0071b9;
+  --color-secondary: #29abe2;
+  --color-accent: #d9e021;
+  --color-light: #f2f2f2;
+  --color-dark: #2d3136;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Ubuntu', sans-serif;
+}
